@@ -8,8 +8,8 @@ class MainSettings(BaseSettings):
 
 
 class EmailServerSettings(MainSettings):
-    server_address: str = Field(..., env='EMAIL_SERVER_ADDRESS')
-    server_port: int = Field(..., env='EMAIL_SERVER_PORT')
+    address: str = Field(..., env='EMAIL_SERVER_ADDRESS')
+    port: int = Field(..., env='EMAIL_SERVER_PORT')
     login: str = Field(..., env='EMAIL_ACCOUNT_LOGIN')
     password: str = Field(..., env='EMAIL_ACCOUNT_PASSWORD')
 
