@@ -13,7 +13,14 @@ class EmailServerSettings(MainSettings):
     login: str = Field(..., env='EMAIL_ACCOUNT_LOGIN')
     password: str = Field(..., env='EMAIL_ACCOUNT_PASSWORD')
 
+class PostgresSettings(MainSettings):
+    db_name: str = Field('notifications', env='POSTGRES_DB')
+    user: str = Field(..., env='POSTGRES_USER')
+    password: str = Field(..., env='POSTGRES_PASSWORD')
+    host: str = Field('localhost', env='POSTGRES_HOST')
+    port: int = Field(5432, env='POSTGRES_PORT')
 
 # Загружаем настройки
 email_server_settings = EmailServerSettings()
+postgres_settings = PostgresSettings()
 
