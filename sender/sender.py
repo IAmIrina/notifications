@@ -19,7 +19,7 @@ if __name__ == '__main__':
 
         # Отправляем письмо
         with open('test_template.html') as f:
-            send_html_email(server, email_server_settings.login, RECIPIENT_EMAILS, 'New Letter SUKA', f.read())
+            send_html_email(server, email_server_settings.login, RECIPIENT_EMAILS, 'New Letter Test', f.read())
 
         server.close()  # Закрываете соединение с smtp-сервером
 

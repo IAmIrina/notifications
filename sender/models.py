@@ -1,4 +1,5 @@
 import uuid
+import re
 
 from pydantic import BaseModel
 
@@ -15,3 +16,19 @@ class Notification(BaseModel):
                 user_id=uuid.uuid4(),
                 content_id="tt3245235",
                 type='email')
+
+class Email:
+    def __init__(self, email: str):
+        self.email = self._is_valid_email(email)
+
+    def _is_valid_email(self, email):
+        regex = "^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$"
+        if not re.match(regex, email):
+            raise ValueError("Неверный емэйл: {self.email}")
+        return email
+
+    def __repr__(self):
+        return f'Email: {self.email}'
+
+    def __str__(self):
+        return self.email
