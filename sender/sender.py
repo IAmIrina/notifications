@@ -1,16 +1,23 @@
 import os
-import smtplib
 from email.message import EmailMessage
 from jinja2 import Environment, FileSystemLoader
 
+from config import email_server_settings
+from servers import get_smtp_server_connection
 
-sender_email = 'from@email.com'
-recipient_email = 'to@email.com'
+recipient_email = 'durden191@yandex.ru'
 
-server = smtplib.SMTP('localhost', 25)  # Подключаетесь к локальному smtp-серверу
+# Подключаемся к серверу
+server = get_smtp_server_connection(
+        address=email_server_settings.server_address,
+        port=email_server_settings.server_port,
+        login=email_server_settings.login,
+        password=email_server_settings.password,
+        )
+
 message = EmailMessage()
 
-message["From"] = sender_email
+message["From"] = recipient_email
 message["To"] = ",".join([recipient_email])
 message["Subject"] = 'Добро пожаловать в Practix!'
 
