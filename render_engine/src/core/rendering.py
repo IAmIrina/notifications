@@ -31,23 +31,23 @@ class MessageHandler():
     def make_letter(self, message):
 
         try:
-            user_id = message.get('user_id')
+            users = message.get('users')
             template = message.pop('template')
         except KeyError:
             logger.exception("Validation error: check user_id and template.")
             return None
+        for user in users:
+            user_info = self.user_info.get_info(user)
+            if not user_info:
+                logger.error("User not found id %s", user)
+                continue
 
-        user_info = self.user_info.get_info(user_id)
-        if not user_info:
-            logger.error("User not found exist.")
-            return None
-
-        render_data = {**message, **user_info}
-        print(render_data)
-        letter = self.render.template_render(template, render_data)
-        try:
-            notification = Notification(letter=letter, **render_data)
-        except ValidationError:
-            logger.exception('Error to create notification')
-            return
-        return notification.dict()
+            render_data = {**message, **user_info}
+            print(render_data)
+            letter = self.render.template_render(template, render_data)
+            try:
+                notification = Notification(letter=letter, **render_data)
+            except ValidationError:
+                logger.exception('Error to create notification')
+                return
+            yield notification.dict()
