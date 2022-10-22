@@ -1,9 +1,23 @@
 import os
 from email.message import EmailMessage
+
+from psycopg2.extras import DictCursor
 from jinja2 import Environment, FileSystemLoader
 
-from config import email_server_settings
+from config import email_server_settings, postgres_settings
 from servers import get_smtp_server_connection
+from db.connections import create_pg_conn
+
+
+pg_conn = create_pg_conn(
+        dbname=postgres_settings.db_name,
+        host=postgres_settings.host,
+        port=postgres_settings.port,
+        user=postgres_settings.user,
+        password=postgres_settings.password,
+        cursor_factory=DictCursor
+        )
+
 
 recipient_email = 'durden191@yandex.ru'
 
