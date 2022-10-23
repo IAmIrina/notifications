@@ -2,6 +2,7 @@ import logging
 
 from core.extraction import UserDataExtractor
 from core.schemas import Notification
+from core.url_shortener import Bitly
 from jinja2 import BaseLoader, Environment
 from jinja2.exceptions import TemplateSyntaxError
 from pydantic import ValidationError
@@ -24,9 +25,11 @@ class JanjaTemplateRender():
 class MessageHandler():
     def __init__(self,
                  user_info: UserDataExtractor,
-                 template_render: JanjaTemplateRender,) -> None:
+                 template_render: JanjaTemplateRender,
+                 url_shortener: Bitly) -> None:
         self.user_info = user_info
         self.render = template_render
+        self.url_shortener = url_shortener
 
     def make_letter(self, message):
 
@@ -36,6 +39,11 @@ class MessageHandler():
         except KeyError:
             logger.exception("Validation error: check user_id and template.")
             return None
+
+        redirect_url = message.get('redirect_url', None)
+        if redirect_url:
+            message['redirect_url'] = self.url_shortener.short(redirect_url)
+
         for user in users:
             user_info = self.user_info.get_info(user)
             if not user_info:

@@ -10,6 +10,7 @@ logger = logging.getLogger(__name__)
 
 
 class RabbitPublisher():
+    @backoff()
     def __init__(self, rabbit_params: RabbitMQSettings):
         self.params = rabbit_params
         credentials = pika.PlainCredentials(rabbit_params.username, rabbit_params.password)
