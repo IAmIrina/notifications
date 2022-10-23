@@ -66,7 +66,7 @@ def backoff_reconnect(start_sleep_time=0.1, factor=2, border_sleep_time=10) -> A
                         delay=delay,
                         retry=retry,
                     )
-                    self._connect()
+                    self.reconnect()
         return inner
     return func_wrapper
 

@@ -6,3 +6,4 @@ class Notification(BaseModel):
     letter: str
     content_id: str
     user_id: str
+    subject: str
