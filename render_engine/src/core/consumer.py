@@ -6,6 +6,7 @@ import pika.exceptions
 from config.settings import RabbitMQSettings
 from core.publisher import RabbitPublisher
 from core.rendering import MessageHandler
+from utils.backoff import backoff
 
 logger = logging.getLogger(__name__)
 
@@ -57,6 +58,7 @@ class RabbitConsumer():
         channel.basic_ack(delivery_tag=method.delivery_tag)
         logger.info('Message was processed.')
 
+    @backoff()
     def start(self):
         try:
             self.connection.ioloop.start()

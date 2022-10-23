@@ -8,3 +8,10 @@ services:
       - 127.0.0.1:5672:5672
       - 127.0.0.1:15672:15672
   
+  render:
+    container_name: render
+    build: render_engine/
+    depends_on:
+      - rabbitmq
+    env_file:
+       - .env
