@@ -51,14 +51,9 @@ class RabbitConsumer():
 
         logger.info('Message decoded %s', message)
 
-        notification = self.render.make_letter(message)
-
-        if not notification:
-            channel.basic_ack(delivery_tag=method.delivery_tag)
-            logger.error('Message was not processed: %s', message)
-            return
-
-        self.publisher.publish(notification, properties.headers)
+        notifications = self.render.make_letter(message)
+        for notification in notifications:
+            self.publisher.publish(notification, properties.headers)
         channel.basic_ack(delivery_tag=method.delivery_tag)
         logger.info('Message was processed.')
 
