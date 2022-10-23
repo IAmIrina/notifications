@@ -1,5 +1,6 @@
 from email.message import EmailMessage
-from models import Email
+
+from src.models.models import Email
 
 
 def send_html_email(server, sender_email: Email, recipients: list[Email], subject: str, body):

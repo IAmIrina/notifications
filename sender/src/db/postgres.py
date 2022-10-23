@@ -3,7 +3,7 @@ import uuid
 from psycopg2.extensions import connection
 import psycopg2.extras
 
-from models import Notification
+from src.models.models import Notification
 
 
 class PostgresService:
