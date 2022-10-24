@@ -20,7 +20,16 @@ class PostgresSettings(MainSettings):
     host: str = Field('localhost', env='POSTGRES_HOST')
     port: int = Field(5432, env='POSTGRES_PORT')
 
+
+class RabbitSettings(MainSettings):
+    username: str = Field(..., env='RABBIT_USER')
+    password: str = Field(..., env='RABBIT_USER_PASSWORD')
+    host: str = '127.0.0.1'
+    port: int = 5672
+    exchange: str = ''
+    queue: str = 'sender'
+
 # Загружаем настройки
 email_server_settings = EmailServerSettings()
 postgres_settings = PostgresSettings()
-
+rabbit_settings = RabbitSettings()
