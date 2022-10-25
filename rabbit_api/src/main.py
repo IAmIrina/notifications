@@ -4,6 +4,8 @@ from fastapi.responses import ORJSONResponse
 
 from core.config import api_settings
 from src.api.v1 import template
+from src.db.postgres import engine
+from src.models import models
 
 app = FastAPI(
     title=api_settings.project_name,
@@ -22,6 +24,8 @@ async def startup():
 async def shutdown():
     ...
 
+
+models.Base.metadata.create_all(bind=engine)
 
 app.include_router(template.router, prefix='/api/v1/template', tags=['template'])
 
