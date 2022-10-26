@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Text
+import sqlalchemy
 
 from src.db.postgres import Base
 
@@ -6,7 +6,8 @@ from src.db.postgres import Base
 class Template(Base):
     __tablename__ = 'templates'
 
-    id = Column(Integer, primary_key=True, index=True)
-    event = Column(String, unique=True, index=True)
-    title = Column(String)
-    text = Column(Text)
+    id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, index=True)
+    event = sqlalchemy.Column(sqlalchemy.String, unique=True, index=True)
+    instant_event = sqlalchemy.Column(sqlalchemy.BOOLEAN)
+    title = sqlalchemy.Column(sqlalchemy.String)
+    text = sqlalchemy.Column(sqlalchemy.Text)

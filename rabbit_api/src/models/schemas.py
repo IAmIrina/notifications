@@ -5,15 +5,13 @@ from pydantic import BaseModel
 
 class TemplateIn(BaseModel):
     event: str
+    instant_event: bool
     title: str
     text: str
 
 
-class TemplateSchema(BaseModel):
+class TemplateSchema(TemplateIn):
     id: int
-    event: str
-    title: str
-    text: str
 
     class Config:
         orm_mode = True

@@ -8,7 +8,7 @@ def get_template_by_event(db: Session, event: str):
 
 
 def create_template(db: Session, template: schemas.TemplateIn):
-    db_template = models.Template(event=template.event, title=template.title, text=template.text)
+    db_template = models.Template(**template.dict())
     db.add(db_template)
     db.commit()
     db.refresh(db_template)
@@ -18,6 +18,7 @@ def create_template(db: Session, template: schemas.TemplateIn):
 def change_template(db: Session, template: schemas.TemplateIn, db_template: schemas.TemplateSchema):
     db_template.title = template.title
     db_template.text = template.text
+    db_template.instant_event = template.instant_event
     db.add(db_template)
     db.commit()
     db.refresh(db_template)

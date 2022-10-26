@@ -22,5 +22,5 @@ def create_notification(
     if not db_template:
         raise HTTPException(status_code=404, detail="Event not found")
     notification = schemas.Notification(**event.dict(), template=db_template.text, subject=db_template.title)
-    publisher.publish(message=notification.json(), connection=connection,queue='fast')
+    publisher.publish(message=notification.json(), connection=connection, queue='fast')
     return HTTPStatus.OK
