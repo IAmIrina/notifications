@@ -4,7 +4,7 @@ import logging
 import pika
 import pika.exceptions
 
-from src.core.config import settings
+from src.core.config import settings, Queue
 
 logger = logging.getLogger(__name__)
 
@@ -20,3 +20,7 @@ def publish(message, connection, queue):
         logger.info('Message was published')
     except pika.exceptions.UnroutableError:
         logger.error('Message was returned')
+
+
+def get_queue(queue_sing):
+    return Queue.fast.name if queue_sing else Queue.slow.name

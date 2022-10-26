@@ -1,4 +1,5 @@
 import os
+from enum import Enum
 
 from pydantic import BaseSettings
 
@@ -41,3 +42,8 @@ class Settings(BaseSettings):
 settings = Settings()
 # Корень проекта
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+
+class Queue(Enum):
+    fast = True
+    slow = False

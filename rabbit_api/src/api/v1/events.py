@@ -8,6 +8,7 @@ from src.db.postgres import get_db
 from src.db.rabbit import get_rabbit
 from src.models import schemas
 from src.services import crud, publisher
+from src.services.publisher import get_queue
 
 router = APIRouter()
 
@@ -22,5 +23,5 @@ def create_notification(
     if not db_template:
         raise HTTPException(status_code=404, detail="Event not found")
     notification = schemas.Notification(**event.dict(), template=db_template.text, subject=db_template.title)
-    publisher.publish(message=notification.json(), connection=connection, queue='fast')
+    publisher.publish(message=notification.json(), connection=connection, queue=get_queue(db_template.instant_event))
     return HTTPStatus.OK
