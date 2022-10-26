@@ -17,7 +17,9 @@ class Notification(BaseModel):
                 content_id="tt3245235",
                 type='email')
 
+
 class Email:
+    """Класс, валидирующий строки-емэйлы"""
     def __init__(self, email: str):
         self.email = self._is_valid_email(email)
 
@@ -32,3 +34,12 @@ class Email:
 
     def __str__(self):
         return self.email
+
+
+class EmailTemplate(BaseModel):
+    """Модель для приема данных о письме из очереди"""
+    email: str
+    letter: str
+    subject: str
+    content_id: str
+    user_id: uuid.UUID

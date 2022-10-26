@@ -2,16 +2,21 @@ import json
 
 import pika
 import pika.exceptions
+
 from src.utils.backoff import backoff
+from src.models.models import EmailTemplate
+from src.core.config import email_server_settings
 
 
 class RabbitConsumer():
-    def __init__(self, rabbit_params) -> None:
+    def __init__(self, rabbit_params, email_sender) -> None:
         self.params = rabbit_params
+        self.email_sender = email_sender
         credentials = pika.PlainCredentials(rabbit_params.username, rabbit_params.password)
         parameters = pika.ConnectionParameters(rabbit_params.host, rabbit_params.port, credentials=credentials)
         self.connection = pika.SelectConnection(parameters, on_open_callback=self.on_connected)
         self.start()
+
 
     def on_connected(self, connection):
         """Этот метод сработает, когда мы полностью подключимся к очереди, и создаст канал"""
@@ -30,21 +35,20 @@ class RabbitConsumer():
         self.channel.basic_consume(self.params.queue, self.handle_delivery)
 
     def handle_delivery(self, channel, method, properties, body):
-        """Сработает, когда мы получим сообщение"""
-        print(body)
-
+        """Сработывает каждый раз, когда мы получаем сообщение"""
+        # Попробуем превратить наше сообщение в JSON
         try:
             message = json.loads(body)
         except json.JSONDecodeError:
             channel.basic_ack(delivery_tag=method.delivery_tag)
-
-        print(message)
-
-        '''        
-        notifications = self.render.make_letter(message)
-        for notification in notifications:
+        # Отправляем сообщение
+        email_to_send = EmailTemplate.parse_obj(message)
+        self.email_sender.send_html_email(
+            sender_email='durden191@yandex.ru',
+            email=email_to_send
+        )
+        # Сообщаем очереди, что сообщение обработано, что сообщение обработано
         channel.basic_ack(delivery_tag=method.delivery_tag)
-        '''
 
     @backoff()
     def start(self):
