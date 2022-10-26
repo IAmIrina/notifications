@@ -19,7 +19,6 @@ class PostgresService:
         curs.execute(query, values)
         curs.close()
 
-
     def save_notification_to_db(self, notification: Notification) -> None:
         """Сохраняет уведомление в БД"""
         query = f'''INSERT INTO {self.tablename} (notification_id, user_id, content_id, type)

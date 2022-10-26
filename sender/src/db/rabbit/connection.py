@@ -5,7 +5,6 @@ import pika.exceptions
 
 from src.utils.backoff import backoff
 from src.models.models import EmailTemplate
-from src.core.config import email_server_settings
 
 
 class RabbitConsumer():
