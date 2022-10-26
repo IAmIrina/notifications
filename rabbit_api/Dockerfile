@@ -9,6 +9,9 @@ COPY /src /src
 WORKDIR /src
 RUN chmod +x entrypoint.sh
 
+# для запуска на винде
+RUN sed -i 's/\r//' entrypoint.sh
+
 EXPOSE 8000
 
 ENTRYPOINT ["./entrypoint.sh"]

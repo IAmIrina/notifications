@@ -26,5 +26,15 @@ services:
     env_file:
       - .env
 
+  rabbit_api:
+    build:
+      context: ./rabbit_api/
+    env_file:
+      - .env
+    depends_on:
+      - db
+    ports:
+      - "8000:8000"
+
 volumes:
   postgres_volume:
