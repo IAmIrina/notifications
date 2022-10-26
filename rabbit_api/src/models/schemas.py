@@ -1,6 +1,6 @@
-from uuid import UUID
+from uuid import UUID, uuid4
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class TemplateIn(BaseModel):
@@ -24,5 +24,6 @@ class Event(BaseModel):
 
 
 class Notification(Event):
+    notification_id: UUID = Field(default_factory=uuid4)
     template: str
     subject: str
