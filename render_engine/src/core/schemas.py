@@ -7,3 +7,4 @@ class Notification(BaseModel):
     content_id: str
     user_id: str
     subject: str
+    notification_id: str
