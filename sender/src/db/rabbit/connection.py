@@ -7,7 +7,7 @@ from src.utils.backoff import backoff
 from src.models.models import EmailTemplate
 
 
-class RabbitConsumer():
+class RabbitConsumer:
     def __init__(self, rabbit_params, email_sender) -> None:
         self.params = rabbit_params
         self.email_sender = email_sender

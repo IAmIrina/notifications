@@ -43,3 +43,4 @@ class EmailTemplate(BaseModel):
     subject: str
     content_id: str
     user_id: uuid.UUID
+    notification_id: uuid.UUID
