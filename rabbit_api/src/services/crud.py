@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 
-from src.models import models, schemas
+from models import models, schemas
 
 
 def get_template_by_event(db: Session, event: str):

@@ -4,10 +4,10 @@ from fastapi import FastAPI
 from fastapi.responses import ORJSONResponse
 
 from core.config import settings
-from src.api.v1 import template, events
-from src.db import rabbit
-from src.db.postgres import engine
-from src.models import models
+from api.v1 import template, events
+from db import rabbit
+from db.postgres import engine
+from models import models
 
 app = FastAPI(
     title=settings.project_name,

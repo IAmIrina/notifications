@@ -4,11 +4,11 @@ import pika
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
-from src.db.postgres import get_db
-from src.db.rabbit import get_rabbit
-from src.models import schemas
-from src.services import crud, publisher
-from src.services.publisher import get_queue
+from db.postgres import get_db
+from db.rabbit import get_rabbit
+from models import schemas
+from services import crud, publisher
+from services.publisher import get_queue
 
 router = APIRouter()
 

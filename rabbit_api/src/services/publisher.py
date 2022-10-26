@@ -4,7 +4,7 @@ import logging
 import pika
 import pika.exceptions
 
-from src.core.config import settings, Queue
+from core.config import settings, Queue
 
 logger = logging.getLogger(__name__)
 

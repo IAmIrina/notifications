@@ -1,6 +1,6 @@
 import sqlalchemy
 
-from src.db.postgres import Base
+from db.postgres import Base
 
 
 class Template(Base):
