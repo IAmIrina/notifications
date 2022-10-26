@@ -18,9 +18,19 @@ class DatabaseSettings(MainSettings):
     ...
 
 
+class RabbitMQSettings(MainSettings):
+    user_name: str = 'guest'
+    password: str = 'guest'
+    host: str = '127.0.0.1'
+    port: int = 5672
+    exchange: str = ''
+
+
 db_settings = DatabaseSettings()
 
 api_settings = ApiSettings()
+
+rabbit_settings = RabbitMQSettings()
 
 # Корень проекта
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

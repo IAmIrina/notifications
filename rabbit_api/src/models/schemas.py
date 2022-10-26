@@ -1,3 +1,5 @@
+from uuid import UUID
+
 from pydantic import BaseModel
 
 
@@ -15,3 +17,14 @@ class TemplateSchema(BaseModel):
 
     class Config:
         orm_mode = True
+
+
+class Event(BaseModel):
+    users: list[UUID]
+    event: str
+    data: dict
+
+
+class Notification(Event):
+    template: str
+    subject: str

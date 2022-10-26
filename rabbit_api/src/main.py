@@ -1,9 +1,12 @@
+import pika
 import uvicorn
 from fastapi import FastAPI
 from fastapi.responses import ORJSONResponse
 
 from core.config import api_settings
-from src.api.v1 import template
+from src.api.v1 import template, events
+from src.core import config
+from src.db import rabbit
 from src.db.postgres import engine
 from src.models import models
 
@@ -17,17 +20,29 @@ app = FastAPI(
 
 @app.on_event('startup')
 async def startup():
-    ...
+    credentials = pika.PlainCredentials(
+        username=config.rabbit_settings.user_name,
+        password=config.rabbit_settings.password
+    )
+    connection_parameters = pika.ConnectionParameters(
+        config.rabbit_settings.host,
+        config.rabbit_settings.port,
+        credentials=credentials
+    )
+    rabbit.rq = pika.BlockingConnection(connection_parameters)
+    rabbit.rq.channel().queue_declare('fast')
+    rabbit.rq.channel().queue_declare('slow')
 
 
 @app.on_event('shutdown')
 async def shutdown():
-    ...
+    rabbit.rq.close()
 
 
 models.Base.metadata.create_all(bind=engine)
 
 app.include_router(template.router, prefix='/api/v1/template', tags=['template'])
+app.include_router(events.router, prefix='/api/v1/event', tags=['event'])
 
 if __name__ == '__main__':
     uvicorn.run(
