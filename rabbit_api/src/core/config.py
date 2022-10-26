@@ -5,12 +5,15 @@ from pydantic import BaseSettings
 
 
 class PostgresSettings(BaseSettings):
-    username: str = 'postgres'
+    user: str = 'postgres'
     password: str = 'password'
     host: str = 'localhost'
     port: int = 5432
     db: str = 'movies'
-    dsn: str = f'postgresql://{username}:{password}@{host}:{port}/{db}'
+
+    @property
+    def dsn(self):
+        return f'postgresql://{self.user}:{self.password}@{self.host}:{self.port}/{self.db}'
 
     class Config:
         env_prefix = "POSTGRES_"
