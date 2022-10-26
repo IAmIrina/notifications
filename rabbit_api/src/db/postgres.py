@@ -2,9 +2,9 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-# TODO перенести в настройки
-SQLALCHEMY_DATABASE_URL = "postgresql://postgres:password@localhost/movies"
-engine = create_engine(SQLALCHEMY_DATABASE_URL)
+from src.core.config import settings
+
+engine = create_engine(settings.postgres.dsn)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 

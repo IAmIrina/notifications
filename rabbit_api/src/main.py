@@ -3,15 +3,14 @@ import uvicorn
 from fastapi import FastAPI
 from fastapi.responses import ORJSONResponse
 
-from core.config import api_settings
+from core.config import settings
 from src.api.v1 import template, events
-from src.core import config
 from src.db import rabbit
 from src.db.postgres import engine
 from src.models import models
 
 app = FastAPI(
-    title=api_settings.project_name,
+    title=settings.project_name,
     docs_url='/api/openapi',
     openapi_url='/api/openapi.json',
     default_response_class=ORJSONResponse,
@@ -21,12 +20,12 @@ app = FastAPI(
 @app.on_event('startup')
 async def startup():
     credentials = pika.PlainCredentials(
-        username=config.rabbit_settings.user_name,
-        password=config.rabbit_settings.password
+        username=settings.rabbit.user_name,
+        password=settings.rabbit.password
     )
     connection_parameters = pika.ConnectionParameters(
-        config.rabbit_settings.host,
-        config.rabbit_settings.port,
+        settings.rabbit.host,
+        settings.rabbit.port,
         credentials=credentials
     )
     rabbit.rq = pika.BlockingConnection(connection_parameters)
@@ -47,7 +46,7 @@ app.include_router(events.router, prefix='/api/v1/event', tags=['event'])
 if __name__ == '__main__':
     uvicorn.run(
         'main:app',
-        reload=api_settings.uvicorn_reload,
+        reload=settings.uvicorn_reload,
         host='0.0.0.0',
         port=8000,
     )
