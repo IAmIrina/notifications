@@ -19,23 +19,23 @@ class EmailSender:
         server.login(self.email_params.login, self.email_params.password)
         return server
 
-    def send_html_email(self, sender_email: Email, email: EmailTemplate):
+    def send(self, data: EmailTemplate):
         """Отправляет письмо на указанные адреса"""
         server = self.get_smtp_server_connection()
         # Формируем письмо
         message = EmailMessage()
-        message["From"] = sender_email
-        message["To"] = email.email
-        message["Subject"] = email.subject
-        message.add_alternative(email.letter, subtype='html')
+        message["From"] = self.email_params.login
+        message["To"] = data.email
+        message["Subject"] = data.subject
+        message.add_alternative(data.letter, subtype='html')
         # Отправляем письмо
-        if self.allow_sending(email.notification_id, email.user_id):
+        if self.allow_sending(data.notification_id, data.user_id):
             server.send_message(message)
             # Записываем факт отправки в БД
             notification = Notification(
-                notification_id=email.notification_id,
-                user_id=email.user_id,
-                content_id=email.content_id,
+                notification_id=data.notification_id,
+                user_id=data.user_id,
+                content_id=data.content_id,
                 type='email'
             )
             self.database.save_notification_to_db(notification)

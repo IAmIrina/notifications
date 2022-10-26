@@ -3,9 +3,10 @@ from psycopg2.extras import DictCursor
 from src.core.config import postgres_settings, rabbit_settings
 from src.db.connections import create_pg_conn
 from src.db.postgres import PostgresService
-from src.db.rabbit.connection import RabbitConsumer
+from src.services.worker import Worker
 from src.services.email_service import EmailSender
 from src.core.config import email_server_settings
+from src.models.models import EmailTemplate
 
 
 if __name__ == '__main__':
@@ -15,4 +16,4 @@ if __name__ == '__main__':
         # Инициализируем сервис отправки писем
         email_sender = EmailSender(email_server_settings, postgres_service)
         # Подключаемся к очереди в Rabbit и принимаем сообщения из очереди
-        foo = RabbitConsumer(rabbit_settings, email_sender)
+        Worker(rabbit_settings, email_sender, EmailTemplate)

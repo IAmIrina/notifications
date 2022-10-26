@@ -13,6 +13,7 @@ class EmailServerSettings(MainSettings):
     login: str = Field(..., env='EMAIL_ACCOUNT_LOGIN')
     password: str = Field(..., env='EMAIL_ACCOUNT_PASSWORD')
 
+
 class PostgresSettings(MainSettings):
     dbname: str = Field('notifications', env='POSTGRES_DB')
     user: str = Field(..., env='POSTGRES_USER')
@@ -24,10 +25,11 @@ class PostgresSettings(MainSettings):
 class RabbitSettings(MainSettings):
     username: str = Field(..., env='RABBIT_USER')
     password: str = Field(..., env='RABBIT_USER_PASSWORD')
-    host: str = '127.0.0.1'
-    port: int = 5672
+    host: str = Field('127.0.0.1', env='RABBIT_HOST')
+    port: int = Field(5672, env='RABBIT_PORT')
     exchange: str = ''
-    queue: str = 'sender'
+    queue: str = Field(..., env='QUEUE')
+
 
 # Загружаем настройки
 email_server_settings = EmailServerSettings()
