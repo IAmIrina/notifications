@@ -1,0 +1,40 @@
+version: '3.4'
+
+services:
+  rabbitmq:
+    image: rabbitmq:3.10-management
+    container_name: rabbitmq
+    ports:
+      - 127.0.0.1:5672:5672
+      - 127.0.0.1:15672:15672
+
+  db:
+    image: postgres:15.0-alpine
+    container_name: postgres
+    volumes:
+      - postgres_volume:/var/lib/postgresql/data/
+    env_file:
+      - .env
+    ports:
+      - "5432:5432"
+  
+  render:
+    container_name: render
+    build: render_engine/
+    depends_on:
+      - rabbitmq
+    env_file:
+      - .env
+
+  rabbit_api:
+    build:
+      context: ./rabbit_api/
+    env_file:
+      - .env
+    depends_on:
+      - db
+    ports:
+      - "8000:8000"
+
+volumes:
+  postgres_volume:
