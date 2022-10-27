@@ -2,9 +2,5 @@
 
 Проектные работы в этом модуле в команде. Задания на спринт вы найдёте внутри тем.
 
-
-### БД Notifications
-notification_id: unique UUID,
-user_id: UUID
-content_id: UUID
-type: str
+## Схема сервиса Уведомлений
+![image](https://user-images.githubusercontent.com/78168466/198223287-429e4dbe-e119-4d99-a8e1-d9eb40b7f7a1.png)
