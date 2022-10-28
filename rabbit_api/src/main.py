@@ -3,11 +3,9 @@ import uvicorn
 from fastapi import FastAPI
 from fastapi.responses import ORJSONResponse
 
-from core.config import settings
 from api.v1 import template, events
+from core.config import settings
 from db import rabbit
-from db.postgres import engine
-from models import models
 
 app = FastAPI(
     title=settings.project_name,
@@ -37,8 +35,6 @@ async def startup():
 async def shutdown():
     rabbit.rq.close()
 
-
-models.Base.metadata.create_all(bind=engine)
 
 app.include_router(template.router, prefix='/api/v1/template', tags=['template'])
 app.include_router(events.router, prefix='/api/v1/event', tags=['event'])
