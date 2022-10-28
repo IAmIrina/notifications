@@ -13,12 +13,19 @@ from services.publisher import get_queue
 router = APIRouter()
 
 
-@router.post("/")
+@router.post("/", summary="Create a notification")
 def create_notification(
         event: schemas.Event,
         db: Session = Depends(get_db),
         connection: pika.BlockingConnection = Depends(get_rabbit)
 ):
+    """
+    Create a notification with all the information:
+
+    - **users**: list of id users to send a notification
+    - **event**: event to notification
+    - **data**: additional data to notification
+    """
     db_template = crud.get_template_by_event(db, event=event.event)
     if not db_template:
         raise HTTPException(status_code=HTTPStatus.NOT_FOUND, detail="Event not found")
