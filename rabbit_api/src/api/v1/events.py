@@ -21,7 +21,7 @@ def create_notification(
 ):
     db_template = crud.get_template_by_event(db, event=event.event)
     if not db_template:
-        raise HTTPException(status_code=404, detail="Event not found")
+        raise HTTPException(status_code=HTTPStatus.NOT_FOUND, detail="Event not found")
     notification = schemas.Notification(**event.dict(), template=db_template.text, subject=db_template.title)
     publisher.publish(message=notification.json(), connection=connection, queue=get_queue(db_template.instant_event))
     return HTTPStatus.OK
