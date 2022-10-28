@@ -1,25 +1,29 @@
-from sqlalchemy.orm import Session
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.future import select
 
 from models import models, schemas
+from models.models import Template
 
 
-def get_template_by_event(db: Session, event: str):
-    return db.query(models.Template).filter(models.Template.event == event).first()
+async def get_template_by_event(session: AsyncSession, event: str):
+    result = await session.execute(select(Template).where(Template.event == event))
+    return result.scalars().first()
 
 
-def create_template(db: Session, template: schemas.TemplateIn):
+async def create_template(session: AsyncSession, template: schemas.TemplateIn):
     db_template = models.Template(**template.dict())
-    db.add(db_template)
-    db.commit()
-    db.refresh(db_template)
+    session.add(db_template)
+    await session.commit()
+    await session.refresh(db_template)
     return db_template
 
 
-def change_template(db: Session, template: schemas.TemplateIn, db_template: schemas.TemplateSchema):
+async def change_template(session: AsyncSession, template: schemas.TemplateIn, event: str):
+    db_template = await get_template_by_event(session, event)
     db_template.title = template.title
     db_template.text = template.text
     db_template.instant_event = template.instant_event
-    db.add(db_template)
-    db.commit()
-    db.refresh(db_template)
+    session.add(db_template)
+    await session.commit()
+    await session.refresh(db_template)
     return db_template

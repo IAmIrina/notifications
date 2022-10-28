@@ -13,7 +13,7 @@ class PostgresSettings(BaseSettings):
 
     @property
     def dsn(self):
-        return f'postgresql://{self.user}:{self.password}@{self.host}:{self.port}/{self.db}'
+        return f'postgresql+asyncpg://{self.user}:{self.password}@{self.host}:{self.port}/{self.db}'
 
     class Config:
         env_prefix = "POSTGRES_"

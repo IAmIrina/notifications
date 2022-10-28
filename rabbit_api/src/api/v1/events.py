@@ -2,7 +2,7 @@ from http import HTTPStatus
 
 import pika
 from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy.orm import Session
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from db.postgres import get_db
 from db.rabbit import get_rabbit
@@ -14,9 +14,9 @@ router = APIRouter()
 
 
 @router.post("/", summary="Create a notification")
-def create_notification(
+async def create_notification(
         event: schemas.Event,
-        db: Session = Depends(get_db),
+        session: AsyncSession = Depends(get_db),
         connection: pika.BlockingConnection = Depends(get_rabbit)
 ):
     """
@@ -26,7 +26,7 @@ def create_notification(
     - **event**: event to notification
     - **data**: additional data to notification
     """
-    db_template = crud.get_template_by_event(db, event=event.event)
+    db_template = await crud.get_template_by_event(session, event=event.event)
     if not db_template:
         raise HTTPException(status_code=HTTPStatus.NOT_FOUND, detail="Event not found")
     notification = schemas.Notification(**event.dict(), template=db_template.text, subject=db_template.title)
