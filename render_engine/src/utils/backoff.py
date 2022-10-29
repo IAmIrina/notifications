@@ -8,7 +8,6 @@ from typing import Any, Tuple
 logger = logging.getLogger(__name__)
 
 
-# def backoff_calculation(**kwargs) -> int:
 def compute_delay(
     start_sleep_time: float,
     factor: float,
@@ -31,7 +30,7 @@ def compute_delay(
     return retry + 1, delay
 
 
-def backoff_reconnect(start_sleep_time=0.1, factor=2, border_sleep_time=10) -> Any:
+def backoff_reconnect(start_sleep_time: float = 0.1, factor: float = 2, border_sleep_time: float = 10) -> Any:
     """Retry with reconnect and delay.
     The function tries to call an argument function after reconnect and delay if the argument
     function caused an exception.
@@ -71,7 +70,7 @@ def backoff_reconnect(start_sleep_time=0.1, factor=2, border_sleep_time=10) -> A
     return func_wrapper
 
 
-def backoff(start_sleep_time=0.1, factor=2, border_sleep_time=10) -> Any:
+def backoff(start_sleep_time: float = 0.1, factor: float = 2, border_sleep_time: float = 10) -> Any:
     """Retry call a function with delay.
     The function tries to call an argument function after delay if the argument
     function caused an exception.
