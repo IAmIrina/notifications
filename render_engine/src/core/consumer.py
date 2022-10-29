@@ -3,9 +3,10 @@ import logging
 
 import pika
 import pika.exceptions
+
 from config.settings import RabbitMQSettings
+from core.message_handler import MessageHandler
 from core.publisher import RabbitPublisher
-from core.rendering import MessageHandler
 from utils.backoff import backoff
 
 logger = logging.getLogger(__name__)
@@ -52,7 +53,7 @@ class RabbitConsumer():
 
         logger.info('Message decoded %s', message)
 
-        notifications = self.render.make_letter(message)
+        notifications = self.render.proccess_message(message).dict()
         for notification in notifications:
             self.publisher.publish(notification, properties.headers)
         channel.basic_ack(delivery_tag=method.delivery_tag)

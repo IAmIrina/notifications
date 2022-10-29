@@ -1,7 +1,8 @@
 from logging import config as logging_config
 
-from config.logger import LOGGING
 from pydantic import BaseSettings
+
+from config.logger import LOGGING
 
 
 class DotEnvMixin(BaseSettings):
