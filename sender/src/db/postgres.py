@@ -9,14 +9,14 @@ from src.models.models import Notification
 
 class PostgresService:
     """Управляет взаимодействием с БД POstgreSQL"""
-    def __init__(self, pg_conn: connection, tablename: str):
-        self.pg_conn = pg_conn
+    def __init__(self, connection: connection, tablename: str):
+        self.connection = connection
         self.tablename = tablename
         psycopg2.extras.register_uuid()  # Позволяет сервису принимать uuid в качестве параметров
 
     def execute_query(self, query: str, values=None):
         """Выполняет SQL запрос и возвращает результат запроса"""
-        with self.pg_conn.cursor() as curs:
+        with self.connection.cursor() as curs:
             if values:
                 curs.execute(query, values)
             else:

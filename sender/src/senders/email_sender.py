@@ -1,15 +1,19 @@
-import smtplib
 import logging
+import smtplib
 from email.message import EmailMessage
 
-from src.models.models import Email, EmailTemplate, Notification
+from pydantic import BaseSettings
 
+from src.models.models import Email, EmailTemplate, Notification
+from src.senders.abstract_sender import AbstractSender
+from src.db.abstract_database import AbstractNotificationDatabaseService
 
 logger = logging.getLogger(__name__)
 
-class EmailSender:
-    """Отправляет емэйл-письма"""
-    def __init__(self, email_params, database):
+
+class EmailSender(AbstractSender):
+    """Управляет отправкой емэйл-писем"""
+    def __init__(self, email_params: BaseSettings, database: AbstractNotificationDatabaseService):
         self.email_params = email_params
         self.database = database
 
