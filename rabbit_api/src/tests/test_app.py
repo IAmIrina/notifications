@@ -34,4 +34,3 @@ def test_change_template():
     assert response.status_code == HTTPStatus.OK
     body["id"] = 1
     assert response.json() == body
-
