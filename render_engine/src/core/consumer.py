@@ -53,9 +53,9 @@ class RabbitConsumer():
 
         logger.info('Message decoded %s', message)
 
-        notifications = self.render.proccess_message(message).dict()
+        notifications = self.render.proccess_message(message)
         for notification in notifications:
-            self.publisher.publish(notification, properties.headers)
+            self.publisher.publish(notification.dict(), properties.headers)
         channel.basic_ack(delivery_tag=method.delivery_tag)
         logger.info('Message was processed.')
 

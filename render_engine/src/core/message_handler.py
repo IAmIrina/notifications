@@ -6,7 +6,7 @@ from pydantic import ValidationError
 
 from core.extraction import UserDataExtractor
 from core.rendering import TemplateRender
-from core.schemas import Notification
+from core.schemas import Notification, EmailNotification
 from core.url_shortener import URLShortener
 
 logger = logging.getLogger()
@@ -49,7 +49,7 @@ class EmailMessageHandler(MessageHandler):
             render_data = {**message, **user_info}
             letter = self.render.template_render(template, render_data)
             try:
-                notification = Notification(letter=letter, **render_data)
+                notification = EmailNotification(letter=letter, **render_data)
             except ValidationError:
                 logger.exception('Error to create notification')
                 return
