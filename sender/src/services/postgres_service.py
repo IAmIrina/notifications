@@ -5,18 +5,19 @@ from psycopg2.extensions import connection
 import psycopg2.extras
 
 from src.models.models import Notification
+from src.db.abstract_database_service import AbstractNotificationDatabaseService
 
 
-class PostgresService:
+class NotificationPostgresService(AbstractNotificationDatabaseService):
     """Управляет взаимодействием с БД POstgreSQL"""
-    def __init__(self, pg_conn: connection, tablename: str):
-        self.pg_conn = pg_conn
+    def __init__(self, connection: connection, tablename: str):
+        self.connection = connection
         self.tablename = tablename
         psycopg2.extras.register_uuid()  # Позволяет сервису принимать uuid в качестве параметров
 
-    def execute_query(self, query: str, values=None):
+    def _execute_query(self, query: str, values=None):
         """Выполняет SQL запрос и возвращает результат запроса"""
-        with self.pg_conn.cursor() as curs:
+        with self.connection.cursor() as curs:
             if values:
                 curs.execute(query, values)
             else:
@@ -35,12 +36,12 @@ class PostgresService:
                 notification.type,
                 str(dt.datetime.now()).split('.')[0]
                 )
-        self.execute_query(query, values)
+        self._execute_query(query, values)
 
     def get_notifications(self):
         """Возвращает все уведомления из БД"""
         query = f"SELECT * FROM notifications;"
-        result = self.execute_query(query)
+        result = self._execute_query(query)
 
         return result
 
@@ -49,5 +50,5 @@ class PostgresService:
         query = f"""SELECT * FROM notifications
                   WHERE notification_id='{notification_id}' AND user_id='{user_id}';"""
 
-        result = self.execute_query(query)
+        result = self._execute_query(query)
         return result[0] if result else None

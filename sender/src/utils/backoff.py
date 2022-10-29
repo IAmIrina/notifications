@@ -8,7 +8,6 @@ from typing import Any, Tuple
 logger = logging.getLogger(__name__)
 
 
-# def backoff_calculation(**kwargs) -> int:
 def compute_delay(
     start_sleep_time: float,
     factor: float,
