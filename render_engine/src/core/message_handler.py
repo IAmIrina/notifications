@@ -6,7 +6,7 @@ from pydantic import ValidationError
 
 from core.extraction import UserDataExtractor
 from core.rendering import TemplateRender
-from core.schemas import Notification, EmailNotification
+from core.schemas import EmailNotification, Notification
 from core.url_shortener import URLShortener
 
 logger = logging.getLogger()

@@ -1,7 +1,9 @@
-from unittest.mock import patch, Mock
 from http import HTTPStatus
+from unittest.mock import Mock, patch
+
 import pytest
-from tests.testdata.messages import bitly_response, auth_response
+
+from tests.testdata.messages import auth_response, bitly_response
 
 
 @pytest.fixture()

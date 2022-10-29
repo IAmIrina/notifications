@@ -1,9 +1,9 @@
+from core.extraction import UserDataExtractor
 from core.message_handler import EmailMessageHandler
 from core.rendering import JanjaTemplateRender
 from core.url_shortener import BitlyURLShortener
-from core.extraction import UserDataExtractor
-
-from tests.testdata.messages import incoming_message, outcoming_message, outcoming_message_bad_shortener
+from tests.testdata.messages import (incoming_message, outcoming_message,
+                                     outcoming_message_bad_shortener)
 
 
 def test_email_handler(mock_url_shortener_post, mock_auth_service):
