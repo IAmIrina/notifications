@@ -3,15 +3,18 @@ import logging
 
 import pika
 import pika.exceptions
+from pydantic import BaseSettings, BaseModel
 
 from src.utils.backoff import backoff
+from src.senders.abstract_sender import AbstractSender
 
 
 logger = logging.getLogger(__name__)
 
+
 class Worker:
-    """Занимается отправкой данных из очереди RabbitMQ """
-    def __init__(self, rabbit_params, sender, template) -> None:
+    """Занимается получением сообщений из очереди RabbitMQ """
+    def __init__(self, rabbit_params: BaseSettings, sender: AbstractSender, template) -> None:
         self.rabbit_params = rabbit_params
         self.sender = sender
         self.template_to_send = template

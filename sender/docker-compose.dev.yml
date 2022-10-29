@@ -1,6 +1,13 @@
 version: '3'
 
 services:
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:3.10-management
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+
   notifications-db:
     container_name: notifications-db
     image: postgres:13.0-alpine
@@ -12,13 +19,6 @@ services:
       - ./postgres-data:/var/lib/postgresql/data
       # Скрипт для инициализации таблицы в БД
       - ./src/db/sql/create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
-
-  rabbitmq:
-    container_name: rabbitmq
-    image: rabbitmq:3.10-management
-    ports:
-      - '5672:5672'
-      - '15672:15672'
 
   email-sender:
     container_name: email-sender
