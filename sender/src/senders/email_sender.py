@@ -7,7 +7,7 @@ from pydantic import BaseSettings
 
 from src.models.models import Email, EmailTemplate, Notification
 from src.senders.abstract_sender import AbstractSender
-from src.db.abstract_database import AbstractNotificationDatabaseService
+from src.db.abstract_database_service import AbstractNotificationDatabaseService
 
 logger = logging.getLogger(__name__)
 

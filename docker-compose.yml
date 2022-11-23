@@ -7,10 +7,15 @@ services:
     ports:
       - 127.0.0.1:5672:5672
       - 127.0.0.1:15672:15672
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 30s
+      timeout: 30s
+      retries: 3
 
-  db:
+  postgres_db:
     image: postgres:15.0-alpine
-    container_name: postgres
+    container_name: notifications-postgres
     volumes:
       - postgres_volume:/var/lib/postgresql/data/
     env_file:
@@ -30,7 +35,8 @@ services:
     env_file:
       - .env
     depends_on:
-      - db
+      rabbitmq:
+        condition: service_healthy
     ports:
       - "8000:8000"
 
@@ -39,8 +45,6 @@ services:
     image: postgres:15.0-alpine
     env_file:
       - .env
-    ports:
-      - "5432:5432"
     volumes:
       - notifications_db_volume:/var/lib/postgresql/data
       # Скрипт для инициализации таблицы в БД
@@ -58,3 +62,8 @@ services:
 volumes:
   postgres_volume:
   notifications_db_volume:
+
+networks:
+  default:
+    name: graduate_network
+    external: true

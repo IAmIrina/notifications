@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from src.db.abstract_database import AbstractNotificationDatabaseService
+from src.db.abstract_database_service import AbstractNotificationDatabaseService
 
 
 class AbstractSender(ABC):
