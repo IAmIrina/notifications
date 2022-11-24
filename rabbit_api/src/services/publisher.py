@@ -15,7 +15,7 @@ def publish(message, connection, queue):
         channel.basic_publish(
             exchange=settings.rabbit.exchange,
             routing_key=queue,
-            body=json.dumps(message),
+            body=message,
         )
         logger.info('Message was published')
     except pika.exceptions.UnroutableError:
