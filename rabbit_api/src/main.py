@@ -27,8 +27,8 @@ async def startup():
         credentials=credentials
     )
     rabbit.rq = pika.BlockingConnection(connection_parameters)
-    rabbit.rq.channel().queue_declare('fast')
-    rabbit.rq.channel().queue_declare('slow')
+    rabbit.rq.channel().queue_declare('fast', durable=True)
+    rabbit.rq.channel().queue_declare('slow', durable=True)
 
 
 @app.on_event('shutdown')
