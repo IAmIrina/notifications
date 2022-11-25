@@ -1,4 +1,7 @@
+from logging import config as logging_config
+
 from pydantic import BaseSettings, Field
+from src.core.logger import LOGGING
 
 
 class MainSettings(BaseSettings):
@@ -15,11 +18,11 @@ class EmailServerSettings(MainSettings):
 
 
 class PostgresSettings(MainSettings):
-    dbname: str = Field('notifications', env='POSTGRES_DB')
-    user: str = Field(..., env='POSTGRES_USER')
-    password: str = Field(..., env='POSTGRES_PASSWORD')
-    host: str = Field('localhost', env='POSTGRES_HOST')
-    port: int = Field(5432, env='POSTGRES_PORT')
+    dbname: str = Field(..., env='NOTIFICATION_DB')
+    user: str = Field(..., env='NOTIFICATION_USER')
+    password: str = Field(..., env='NOTIFICATION_PASSWORD')
+    host: str = Field(..., env='NOTIFICATION_HOST')
+    port: int = Field(..., env='NOTIFICATION_PORT')
 
 
 class RabbitSettings(MainSettings):
@@ -31,7 +34,7 @@ class RabbitSettings(MainSettings):
     queue: str = Field(..., env='QUEUE')
 
 
-# Загружаем настройки
 email_server_settings = EmailServerSettings()
 postgres_settings = PostgresSettings()
 rabbit_settings = RabbitSettings()
+logging_config.dictConfig(LOGGING)

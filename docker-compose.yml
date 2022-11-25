@@ -4,6 +4,8 @@ services:
   rabbitmq:
     image: rabbitmq:3.10-management
     container_name: rabbitmq
+    environment:
+      RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS: "-rabbit heartbeat 3600"
     ports:
       - 127.0.0.1:5672:5672
       - 127.0.0.1:15672:15672
@@ -13,13 +15,18 @@ services:
       timeout: 30s
       retries: 3
 
-  postgres_db:
+  templates_db:
     image: postgres:15.0-alpine
-    container_name: notifications-postgres
+    container_name: templates-db
     volumes:
       - postgres_volume:/var/lib/postgresql/data/
     env_file:
       - .env
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_PORT=${POSTGRES_PORT}:5432
   
   render:
     container_name: render
@@ -45,6 +52,11 @@ services:
     image: postgres:15.0-alpine
     env_file:
       - .env
+    environment:
+      - POSTGRES_DB=${NOTIFICATION_DB}
+      - POSTGRES_USER=${NOTIFICATION_USER}
+      - POSTGRES_PASSWORD=${NOTIFICATION_PASSWORD}
+      - POSTGRES_PORT=${NOTIFICATION_PORT}:5432
     volumes:
       - notifications_db_volume:/var/lib/postgresql/data
       # Скрипт для инициализации таблицы в БД

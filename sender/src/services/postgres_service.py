@@ -1,11 +1,11 @@
-import uuid
 import datetime as dt
+import uuid
 
-from psycopg2.extensions import connection
 import psycopg2.extras
-
+from psycopg2.extensions import connection
+from src.db.abstract_database_service import \
+    AbstractNotificationDatabaseService
 from src.models.models import Notification
-from src.db.abstract_database_service import AbstractNotificationDatabaseService
 
 
 class NotificationPostgresService(AbstractNotificationDatabaseService):
@@ -37,6 +37,7 @@ class NotificationPostgresService(AbstractNotificationDatabaseService):
                 str(dt.datetime.now()).split('.')[0]
                 )
         self._execute_query(query, values)
+        self.connection.commit()
 
     def get_notifications(self):
         """Возвращает все уведомления из БД"""

@@ -1,13 +1,13 @@
 import logging
 import smtplib
-from email.message import EmailMessage
 import uuid
+from email.message import EmailMessage
 
 from pydantic import BaseSettings
-
+from src.db.abstract_database_service import \
+    AbstractNotificationDatabaseService
 from src.models.models import Email, EmailTemplate, Notification
 from src.senders.abstract_sender import AbstractSender
-from src.db.abstract_database_service import AbstractNotificationDatabaseService
 
 logger = logging.getLogger(__name__)
 
@@ -31,7 +31,7 @@ class EmailSender(AbstractSender):
         # Формируем письмо
         message = EmailMessage()
         message["From"] = self.email_params.login
-        message["To"] = data.email
+        message["To"] = 'IRAbrosimov@yandex.ru'
         message["Subject"] = data.subject
         message.add_alternative(data.letter, subtype='html')
         # Отправляем письмо
