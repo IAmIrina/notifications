@@ -25,5 +25,6 @@ class Event(BaseModel):
 
 class Notification(Event):
     notification_id: UUID = Field(default_factory=uuid4)
+    content_id: UUID = Field(default_factory=uuid4)
     template: str
     subject: str
