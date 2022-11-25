@@ -1,6 +1,7 @@
 from http import HTTPStatus
 
 import requests
+
 from utils.backoff import backoff
 
 
@@ -13,10 +14,9 @@ class UserDataExtractor():
 
     @backoff()
     def get_info(self, user_id: str) -> dict:
-        # response = requests.get(url=f"{ self.url}/{user_id}", headers=self.headers)
-        # if response.status_code != HTTPStatus.OK:
-        #     raise Exception(f"Status code {response.status_code} {response.text}")
-        # return response.json()
-        return {"email": "IRAbrosimov@yandex.ru",
-                "user_id": "eae00fa1-439e-4791-a09a-e48baefd5200",
-                "content_id": "123"}
+        response = requests.get(url=f"{ self.url}/{user_id}", headers=self.headers)
+        if response.status_code != HTTPStatus.OK:
+            raise Exception(f"Status code {response.status_code} {response.text}")
+        body = response.json()
+        body['user_id'] = body.pop('id')
+        return body
