@@ -31,7 +31,7 @@ class EmailSender(AbstractSender):
         # Формируем письмо
         message = EmailMessage()
         message["From"] = self.email_params.login
-        message["To"] = 'IRAbrosimov@yandex.ru'
+        message["To"] = data.email
         message["Subject"] = data.subject
         message.add_alternative(data.letter, subtype='html')
         # Отправляем письмо
