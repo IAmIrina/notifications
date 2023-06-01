@@ -1,6 +1,6 @@
 # Сервис Уведомлений
 
-Ссылка на спринт по уведомлениям https://github.com/AlexRussianPyth/notifications_sprint_1
+Ссылка на спринт по уведомлениям https://github.com/IAmIrina/notifications
 
 ## Краткое описание сервиса
 Сервис позволяет уведомлять пользователей Проекта Movies о различных событиях:
