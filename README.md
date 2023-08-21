@@ -1,4 +1,4 @@
-# Project work: "Notification service for Online cinema.".
+# Project work: "Notification service for Online cinema".
 
 The service allows users to be notified about different events, such as confirmation of registration, new releases, analytics, etc.
 
