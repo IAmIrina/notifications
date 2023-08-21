@@ -2,7 +2,7 @@
 
 The service allows users to be notified about different events, such as confirmation of registration, new releases, analytics, etc.
 
-The service implements e-mail notifications, but using interfaces in the source code allows for easy integration in other ways, such as SMS, Telegram messages, etc.
+The service implements e-mail notifications, but using interfaces in the source code allows for easy implements other ways, such as SMS, Telegram messages, etc.
 
 ## Schema of the service
 ![image](https://user-images.githubusercontent.com/78168466/198252273-3ccf5c86-26de-4cc5-bb7c-7dde8c28127c.png)
