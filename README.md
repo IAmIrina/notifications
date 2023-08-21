@@ -1,42 +1,31 @@
-# Сервис Уведомлений
+# Project work: "Notification service for Online cinema.".
 
-Ссылка на спринт по уведомлениям https://github.com/IAmIrina/notifications
+The service allows users to be notified about different events, such as confirmation of registration, new releases, analytics, etc.
 
-## Краткое описание сервиса
-Сервис позволяет уведомлять пользователей Проекта Movies о различных событиях:
-- Необходимости подтвердить регистрацию
-- Просмотренных за неделю фильмах, другой аналитике
-и т.п.
+The service implements e-mail notifications, but using interfaces in the source code allows for easy integration in other ways, such as SMS, Telegram messages, etc.
 
-На текущий момент в Сервисе реализован один способ отправки уведомлений - электронное письмо. Но к сервису можно легко подключить любые иные способы отправки уведомлений.
-## Схема сервиса Уведомлений
+## Schema of the service
 ![image](https://user-images.githubusercontent.com/78168466/198252273-3ccf5c86-26de-4cc5-bb7c-7dde8c28127c.png)
 
-## Схема Sender (отправка уведомлений пользователям)
+## Schema Sender module
 ![image](https://user-images.githubusercontent.com/78168466/198835048-96d53d8c-2968-400e-ae5b-49c4b9bba7e7.png)
-Каждый Воркер работает с одной очередью (название очереди передается через параметры) и одним Sender. 
+Every worker processes one queue and interacts with one Sender.
 
-Для расширения сервиса и добавления других Sender (для смс, пуш и т.п.) следует использовать класс Worker + иную реализацию AbstractSender. 
+To expand the service and add notification channels (sms, push, etc) use the Worker class and your own realization Sender class (AbstractSender).
 
-## Запуск проекта
-Для запуска проекта:
-1. Создайте файл .env (в качестве шаблона используйте файл .env.example).
-2. Откорректируйте переменные окружения, особое внимание обратите на параметры почтового сервера:
-EMAIL_SERVER_ADDRESS
-EMAIL_SERVER_PORT
-EMAIL_ACCOUNT_LOGIN
-EMAIL_ACCOUNT_PASSWORD
-3. Используйте команду:
+## Deploy
+To run the project:
+1. Create .env (use template .env.example)
+2. run command:
 ```docker-compose up --build```
 
-## Работа с API
-Схема API доступна по адресу:
-    ```127.0.0.1:8000/api/openapi```
+## API documentation
+Swagger:
+    ```127.0.0.1:8000/api/openapi```
 
-## Запуск тестов
-Для запуска тестов:
-1. Создайте файл .env (в качестве шаблона используйте файл .env.example).
-2. Откорректируйте переменные окружения, особое внимание обратите на параметры почтового сервера:
-3. Перейдите в папку tests
-4. Используйте команду:
+## Tests
+To run tests:
+1. Create file .env (use template .env.example)
+2. Change the current directory to tests
+3. run command:
 ```docker-compose up --build```
